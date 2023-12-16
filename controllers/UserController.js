@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/UserModel');
+const bodyParser = require('body-parser');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 
@@ -10,7 +11,7 @@ const getAllUsers = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: "data not located" });
+        res.status(500).json({ error: "data not located" })
 
     }
 }
