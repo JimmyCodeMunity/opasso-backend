@@ -11,6 +11,6 @@ router.use(express.urlencoded({extended:false}));
 
 router.get('/usersdata',getAllUsers);
 
-//router.post('/login',Login);
+router.post('/login',Login);
 
 module.exports = router;
