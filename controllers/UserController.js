@@ -38,7 +38,7 @@ const Login = async (req, res) => {
         if (user.status === 'Approved') {
             res.status(200).json({ message: 'Login successful' });
         } else {
-            res.status(405).json({ error: 'Wait for account to be approved' });
+            res.status(403).json({ error: 'Wait for account to be approved' });
         }
     } catch (error) {
         res.status(500).json({ error: 'Failed to login' });
