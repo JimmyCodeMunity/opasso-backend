@@ -59,7 +59,7 @@ const createUser = async (req, res) => {
         const user = await User.create({
             email,
             password: hashedPassword,
-            username,
+            name,
             phoneNumber,
         });
 
