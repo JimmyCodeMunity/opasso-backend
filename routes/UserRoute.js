@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/UserModel');
-const { getAllUsers, getAllSellers, Login,createUser,getAllUsersByEmail,updateUserByEmail } = require('../controllers/UserController');
+const { getAllUsers, getAllSellers, Login,createUser,getAllUsersByEmail,updateUserByEmail,updateUserPasswordByEmail } = require('../controllers/UserController');
 
 const router = express.Router();
 router.use(express.json());
@@ -19,5 +19,9 @@ router.get('/usersdata/:email',getAllUsersByEmail);
 
 
 router.put('/updateuser/:email',updateUserByEmail);
+
+
+router.put('/updatepassword/:email',updateUserPasswordByEmail);
+
 
 module.exports = router;
