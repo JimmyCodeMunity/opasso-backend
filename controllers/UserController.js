@@ -42,7 +42,38 @@ const Login = async (req, res) => {
 }
 
 
+const createUser = async (req, res) => {
+    try {
+        const { name,email,password,address,phoneNumber } = req.body;
+
+        // Check if the email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'Email already exists' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create a new user
+        const user = await User.create({
+            email,
+            password: hashedPassword,
+            username,
+            phoneNumber,
+        });
+
+        res.status(200).json(user);
+        console.log('User account created successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 module.exports = {
     getAllUsers,
-    Login
+    Login,
+    createUser
 }
