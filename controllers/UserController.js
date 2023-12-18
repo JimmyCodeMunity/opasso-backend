@@ -95,9 +95,36 @@ const createUser = async (req, res) => {
 };
 
 
+
+
+const updateUserByEmail = async(req,res) =>{
+    try {
+    const { email } = req.params;
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email }, // Find the brand by its name
+      req.body, // Update the brand with the request body data
+      { new: true } // Return the updated brand as the response
+    );
+
+    // If brand fetched cannot be found
+    if (!updatedUser) {
+      return res.status(404).json({ message: `Cannot find user with email ${email}` });
+    }
+
+    res.status(200).json(updatedUser);
+    console.log("Data updated successfully");
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+
+  }
+}
+
+
 module.exports = {
     getAllUsers,
     Login,
     createUser,
-    getAllUsersByEmail 
+    getAllUsersByEmail,
+    updateUserByEmail
 }
