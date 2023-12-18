@@ -17,6 +17,23 @@ const getAllUsers = async (req, res) => {
 }
 
 
+
+const getAllUsersByEmail = async (req, res) => {
+    try {
+        const {email} = req.params;
+        const user = await User.find({email});
+        if(!user){
+            res.status(404).json({message:'you have not added any item to cart'});
+        }
+        res.status(200).json(user);
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: "data not located" })
+
+    }
+}
+
 //get all sellers
 const Login = async (req, res) => {
     try {
@@ -81,5 +98,6 @@ const createUser = async (req, res) => {
 module.exports = {
     getAllUsers,
     Login,
-    createUser
+    createUser,
+    getAllUsersByEmail 
 }
