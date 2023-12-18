@@ -60,6 +60,7 @@ const createUser = async (req, res) => {
             email,
             password: hashedPassword,
             name,
+            address,
             phoneNumber,
         });
 
