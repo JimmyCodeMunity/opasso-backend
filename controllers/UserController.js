@@ -127,24 +127,31 @@ const updateUserPasswordByEmail = async (req, res) => {
     const { email } = req.params;
     const { newPassword } = req.body;
 
+    // Check if newPassword is provided
+    if (!newPassword) {
+      return res.status(400).json({ message: 'New password is required' });
+    }
+
     // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
+    // Update the user's password
     const updatedUser = await User.findOneAndUpdate(
       { email: email },
       { password: hashedPassword },
       { new: true }
     );
 
+    // If user with the provided email is not found
     if (!updatedUser) {
       return res.status(404).json({ message: `Cannot find user with email ${email}` });
     }
 
     res.status(200).json(updatedUser);
     console.log('Password updated successfully');
-
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error(error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
