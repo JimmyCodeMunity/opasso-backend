@@ -125,15 +125,15 @@ const updateUserByEmail = async(req,res) =>{
 const updateUserPasswordByEmail = async (req, res) => {
   try {
     const { email } = req.params;
-    const { newPassword } = req.body;
+    const { password } = req.body;
 
     // Check if newPassword is provided
-    if (!newPassword) {
+    if (!password) {
       return res.status(400).json({ message: 'New password is required' });
     }
 
     // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Update the user's password
     const updatedUser = await User.findOneAndUpdate(
