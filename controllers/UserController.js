@@ -121,10 +121,39 @@ const updateUserByEmail = async(req,res) =>{
 }
 
 
+
+const updateUserPasswordByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const { newPassword } = req.body;
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { email: email },
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: `Cannot find user with email ${email}` });
+    }
+
+    res.status(200).json(updatedUser);
+    console.log('Password updated successfully');
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 module.exports = {
     getAllUsers,
     Login,
     createUser,
     getAllUsersByEmail,
-    updateUserByEmail
+    updateUserByEmail,
+    updateUserPasswordByEmail
 }
