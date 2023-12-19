@@ -72,14 +72,16 @@ const getProductByShopId = async(req,res)=>{
 const searchProducts = async(req,res)=>{
     try {
     const { query } = req.params;
+
     const products = await Product.find({
       $or: [
-        { name: { $regex: query, $options: 'i' } }, // Search for name or letter in product name
+        { name: { $regex: query, $options: 'i' } }, // Adjust the field names based on your model
         { brand: { $regex: query, $options: 'i' } },
-        // { location: { $regex: query, $options: 'i' } },
-        // { category: { $regex: query, $options: 'i' } }, // Search for name or letter in seller name
-      ]
+        { category: { $regex: query, $options: 'i' } },
+        // Add more fields as needed
+      ],
     });
+
     if (products.length === 0) {
       res.status(404).json({ message: 'No products found' });
     } else {
