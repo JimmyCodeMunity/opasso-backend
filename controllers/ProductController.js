@@ -69,10 +69,34 @@ const getProductByShopId = async(req,res)=>{
     }
   }
 
+const searchProducts = async(req,res)=>{
+    try {
+    const searchTerm = req.query.searchTerm; // Assuming the search term is passed as a query parameter
+
+    const searchRegex = new RegExp(searchTerm, 'i'); // 'i' for case-insensitive search
+
+    // Perform the search on multiple fields using logical OR
+    const products = await Product.find({
+      $or: [
+        { 'shop.name': searchRegex }, // Search shop name
+        { name: searchRegex }, // Search product name
+        { discountPrice: { $regex: searchRegex } }, // Search price (assuming discountPrice is a string)
+        // Add more fields as needed
+      ],
+    }).populate('shop');
+
+    res.json(products);
+  } catch (error) {
+    console.error('Error searching products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 
 module.exports = {
     getAllProducts,
     getSubcategories,
     getProductByCategory,
-    getProductByShopId
+    getProductByShopId,
+    searchProducts
 }
