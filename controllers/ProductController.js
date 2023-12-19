@@ -75,7 +75,7 @@ const searchProducts = async(req,res)=>{
     const products = await Product.find({
       $or: [
         { name: { $regex: query, $options: 'i' } }, // Search for name or letter in product name
-        // { sellername: { $regex: query, $options: 'i' } },
+        { brand: { $regex: query, $options: 'i' } },
         // { location: { $regex: query, $options: 'i' } },
         // { category: { $regex: query, $options: 'i' } }, // Search for name or letter in seller name
       ]
