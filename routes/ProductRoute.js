@@ -1,6 +1,6 @@
 const express = require('express');
 const Product = require('../models/ProductModel');
-const { getAllProducts, getProductByCategory,getProductByShopId } = require('../controllers/ProductController');
+const { getAllProducts, getProductByCategory,getProductByShopId,searchProducts } = require('../controllers/ProductController');
 
 
 const router = express.Router();
@@ -18,6 +18,9 @@ router.get('/productlistcategory/:category',getProductByCategory);
 
 //get product by shop id
 router.get('/productlist/:shopId',getProductByShopId);
+
+//search products
+router.get('/search', searchProducts);
 
 
 module.exports = router;
