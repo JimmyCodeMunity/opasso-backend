@@ -20,7 +20,7 @@ router.get('/productlistcategory/:category',getProductByCategory);
 router.get('/productlist/:shopId',getProductByShopId);
 
 //search products
-router.post('/search', searchProducts);
+router.post('/search/:searchItem', searchProducts);
 
 
 module.exports = router;
