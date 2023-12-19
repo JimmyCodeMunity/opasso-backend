@@ -71,24 +71,22 @@ const getProductByShopId = async(req,res)=>{
 
 const searchProducts = async(req,res)=>{
     try {
-    const searchTerm = req.query.searchTerm; // Assuming the search term is passed as a query parameter
-
-    const searchRegex = new RegExp(searchTerm, 'i'); // 'i' for case-insensitive search
-
-    // Perform the search on multiple fields using logical OR
+    const { query } = req.params;
     const products = await Product.find({
       $or: [
-        { 'shop.name': searchRegex }, // Search shop name
-        { name: searchRegex }, // Search product name
-        { discountPrice: { $regex: searchRegex } }, // Search price (assuming discountPrice is a string)
-        // Add more fields as needed
-      ],
-    }).populate('shop');
-
-    res.json(products);
+        { name: { $regex: query, $options: 'i' } }, // Search for name or letter in product name
+        // { sellername: { $regex: query, $options: 'i' } },
+        // { location: { $regex: query, $options: 'i' } },
+        // { category: { $regex: query, $options: 'i' } }, // Search for name or letter in seller name
+      ]
+    });
+    if (products.length === 0) {
+      res.status(404).json({ message: 'No products found' });
+    } else {
+      res.status(200).json(products);
+    }
   } catch (error) {
-    console.error('Error searching products:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: error.message });
   }
 }
 
